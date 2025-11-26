@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Momentum-Based Movement System — Technical Breakdown</h1>
+                <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, HLSL</p>
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/mOVEMENT_yqyart.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/Momentumbased_movement_system_unjmhn.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Smaller thumbnails -->
+                <div class="media-grid">
+                    <div class="media-item">
+                        <div class="placeholder-media">Img 1</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="placeholder-media">Img 2</div>
+                    </div>
+                    <div class="media-item">
+                        <div class="placeholder-media">Img 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    This project features a fully custom, component-driven movement framework designed to deliver fast,
+                    expressive traversal similar to Titanfall 2. Each mechanic—slide, slide-hop, wall-run, grapple, and
+                    slam—interacts through shared momentum rules, allowing players to chain actions fluidly and
+                    continuously increase speed.
+                </p>
+
+                <h2>Technical Details</h2>
+                <p>
+                    Dive deeper into the code or technical art aspects.
+                    Mention performance optimizations, specific algorithms, or pipeline tools used.
+                </p>
+            </div> -->
+            <div class="project-description">
+                <section>
+                    <h2>1. System Architecture Overview</h2>
+                    <h3>Component-Based Movement</h3>
+                    <p>All movement mechanics are built through modular Unreal Engine components.</p>
+
+                    <h4>Key components include:</h4>
+                    <ul>
+                        <li>
+                            <p><b>Slide Component</b> – handles ground-slide, slide-hop, capsule scaling,
+                                friction overrides.</p>
+                        </li>
+                        <li>
+                            <p><b>Wall Run Component</b> – manages wall detection, surface checks, directional
+                                calculations, and wall-run physics.</p>
+                        </li>
+                        <li>
+                            <p><b>Grapple Component</b> – controls grapple firing, hit detection, tension forces,
+                                pull behavior, and release logic.</p>
+                        </li>
+                        <li>
+                            <p><b>Jump Component</b> – extends regular jumps with slide-jumps, wall-jumps, and
+                                momentum-preserving boosts.</p>
+                        </li>
+                        <li>
+                            <p><b>Movement State Handler</b> – central controller managing transitions between
+                                movement states (Running → Sliding → Wallrunning → Grappling, etc.)</p>
+                        </li>
+                    </ul>
+                    <p>This modular approach keeps logic isolated, makes debugging easier, and allows individual
+                        mechanics to be iterated or replaced without affecting the full movement system.</p>
+                </section>
+
+                <section>
+                    <h2>2. Slide System</h2>
+                    <h3>Functionality</h3>
+                    <p>The slide system enables:</p>
+                    <ul>
+                        <li>
+                            <p>Standard ground slide—Linear force applied along the ground surface’s tangent, and also
+                                sets
+                                the player's location (only the Z axis) on the predicted ground location to make the
+                                player
+                                stick to the ground when sliding.</p>
+                        </li>
+                        <li>
+                            <p>Slide-hop (jumping mid-slide to convert horizontal velocity into a boost). (If hop is
+                                triggered when going up a slope, additional force is applied along the ground surface
+                                normal
+                                to give extra height to the jump).</p>
+                        </li>
+                        <li>
+                            <p>Momentum preservation when transitioning out of the slide into wallruns or grapple.</p>
+                        </li>
+                    </ul>
+
+                    <h3>Technical Breakdown</h3>
+                    <ul>
+                        <li>
+                            <p><b>Activation Conditions:</b> Triggered when sprinting above a minimum velocity
+                                and the player presses Crouch.</p>
+                        </li>
+                        <li>
+                            <p><b>Capsule Scaling:</b> Capsule height smoothly lerps to a lower profile to avoid
+                                clipping and maintain readability.</p>
+                        </li>
+                        <li>
+                            <p><b>Friction Override:</b> Ground friction is reduced to allow long slides and
+                                speed maintenance.</p>
+                        </li>
+                        <li>
+                            <p><b>Slide Direction Logic:</b> The slide direction is determined by the player’s
+                                input; if no input is provided, the player's forward vector is used as the direction,
+                                allowing momentum-based steering.</p>
+                        </li>
+                        <li>
+                            <p>
+                                <b>Slide-Hop Calculation:</b> When the player jumps during a slide:
+                            <ul>
+                                <li>
+                                    <p>Vertical boost is only partial to avoid floatiness.</p>
+                                </li>
+                                <li>
+                                    <p>Horizontal velocity is preserved and increased slightly.</p>
+                                </li>
+                            </ul>
+                            <p>Adds a skill-based timing mechanic similar to bunny-hopping.</p>
+                            </p>
+                        </li>
+                    </ul>
+                    <p>This system encourages chaining slides to maintain maximum ground speed.</p>
+                </section>
+
+                <section>
+                    <h2>3. Wall Run System</h2>
+                    <h3>Functionality</h3>
+                    <p>The player can run horizontally or vertically on walls, transition between walls, and preserve
+                        speed.</p>
+
+                    <h3>Technical Breakdown</h3>
+                    <ul>
+                        <li>
+                            <p><b>Wall Detection:</b> Forward and side line traces identify valid wall surfaces
+                                and the angle of player with respect to the wall.
+                                <br><br>Surfaces are validated using:
+                            <ul>
+                                <li>
+                                    <p>Surface normal vs player camera’s forward vector</p>
+                                </li>
+                                <li>
+                                    <p>Wall surface curvature</p>
+                                </li>
+                                <li>
+                                    <p>Player current velocity</p>
+                                </li>
+                            </ul>
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Direction Calculation:</b> Wall run direction =
+                                $\text{Cross}(\text{WallNormal}, \text{WorldUp})$ with left/right validation. If the
+                                direction opposes player momentum, the system flips it.</p>
+                        </li>
+                        <li>
+                            <p><b>Physics & Velocity:</b> Custom forces simulate “stickiness” keeping player
+                                attached without feeling magnetic. Vertical gravity is reduced. Horizontal velocity is
+                                interpolated toward a target wall-run speed which depends on the player’s initial
+                                velocity.</p>
+                        </li>
+                        <li>
+                            <p>
+                                <b>Visual Feedback:</b> Player camera tilts slightly based on wall-run direction,
+                                and weapon animation changes by modifying shoulder bone rotation and position for
+                                feedback.
+                            </p>
+                        </li>
+                    </ul>
+                    <p>This system rewards maintaining angle, speed, and spatial awareness.</p>
+
+                </section>
+
+                <section>
+                    <h2>4. Grapple System</h2>
+                    <h3>Functionality</h3>
+                    <p>A fast, skill-based grapple designed to maintain and amplify momentum, similar to Titanfall 2.
+                    </p>
+
+                    <h3>Technical Breakdown</h3>
+                    <ul>
+                        <li>
+                            <p><b>Grapple Firing:</b> A sphere trace from the camera center checks for valid
+                                grapple surfaces. The location is stored and used as a buffer if there is no other valid
+                                surface, and the player's aim is not far away from the buffer point. Hook attaches to
+                                world
+                                geometry or enemies and moves if the enemies move, as it becomes a child of the attached
+                                actor.</p>
+                        </li>
+                        <li>
+                            <p><b>Force Application:</b> Grapple behavior uses a spring-like force model:</p>
+                            <ul>
+                                <li>
+                                    <p>Pull strength increases as the rope tightens.</p>
+                                </li>
+                                <li>
+                                    <p>Force is applied along the grapple point from the player's location, and one
+                                        force
+                                        is applied along the camera’s forward direction.</p>
+                                </li>
+                                <li>
+                                    <p>Additional force is applied towards the start of the grapple along the player’s
+                                        up
+                                        vector to give him some height and provide a clean arc motion whenever the
+                                        player
+                                        grapples to the ground.</p>
+                                </li>
+                                <li>
+                                    <p>Grapple is detached if the player exceeds the initial grapple tangent in order to
+                                        prevent high centrifugal force and make the grapple behave like a catapult.
+                                        Maximum
+                                        speed cap prevents uncontrollable launches.</p>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <p><b>Momentum Integration:</b> Grapple releases automatically when the player
+                                reaches max swing angle or manually releases.</p>
+                            <br>
+                            Upon release:
+                            <ul>
+                                <li>
+                                    <p>Player inherits swing velocity.</p>
+                                </li>
+                                <li>
+                                    <p>Vertical component is boosted depending on swing arc.</p>
+                                </li>
+                            </ul>
+                            <p>Allows chaining into quick ground slam, wallruns, or slide hop.</p>
+                        </li>
+                    </ul>
+                    <p>This creates a highly expressive traversal tool.</p>
+                </section>
+
+                <section>
+                    <h2>5. Ground Slam System</h2>
+                    <h3>Functionality</h3>
+                    <p>A fast downward slam that can be chained after jumps or grapple swings.</p>
+
+                    <h3>Technical Breakdown</h3>
+                    <ul>
+                        <li>
+                            <p>Vertical velocity is overwritten with a strong downward impulse.</p>
+                        </li>
+                        <li>
+                            <p>Upon impact:</p>
+                            <ul>
+                                <li>
+                                    <p>Velocity is converted into a forward burst if player holds movement input.</p>
+                                </li>
+                                <li>
+                                    <p>Slam can transition immediately into a slide for rapid traversal.</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>This adds dramatic vertical control and is great for maintaining flow after high jumps, and to
+                        reset the grapple cooldown.</p>
+                </section>
+
+                <section>
+                    <h2>6. Jump System</h2>
+                    <h3>Functionality</h3>
+                    <p>Multiple jump types built around momentum preservation.</p>
+                    <h4>Jump Types</h4>
+                    <ul>
+                        <li>
+                            <p><b>Normal Jump</b>Standard vertical impulse.</p>
+                        </li>
+                        <li>
+                            <p><b>Slide Jump</b>Converts slide velocity into stronger forward jump.</p>
+                        </li>
+                        <li>
+                            <p><b>Wall Jump</b>Uses wall normal + view direction to push player away while
+                                preserving speed.</p>
+                        </li>
+                        <li>
+                            <p><b>Grapple Jump</b>Additional forward velocity is added along camera's forward
+                                direction to give the feel of a catapult.</p>
+                        </li>
+                    </ul>
+                    <h3>Technical Breakdown</h3>
+                    <p>Jump calculations adapt based on:</p>
+                    <ul>
+                        <li>
+                            <p>Current state (sliding, wallrunning, airborne)</p>
+                        </li>
+                        <li>
+                            <p>Ground check status</p>
+                        </li>
+                        <li>
+                            <p>Velocity vectors</p>
+                        </li>
+                        <li>
+                            <p>Player camera orientation</p>
+                        </li>
+                    </ul>
+                    <p>This makes jumping part of the player's decision-making and expression, not just a binary action.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>7. Movement State Handler</h2>
+                    <h3>Purpose</h3>
+                    <p>The Movement State Handler acts as the central controller for:</p>
+                    <ul>
+                        <li>
+                            <p>State transitions</p>
+                        </li>
+                        <li>
+                            <p>Prioritizing movement mechanics</p>
+                        </li>
+                        <li>
+                            <p>Managing timers, cooldowns, and interrupt rules</p>
+                        </li>
+                    </ul>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li>
+                            <p>Slide cannot override grapple unless forced.</p>
+                        </li>
+                        <li>
+                            <p>Wallrun has priority over normal airborne state.</p>
+                        </li>
+                        <li>
+                            <p>Jump modifies behavior depending on active state.</p>
+                        </li>
+                    </ul>
+                    <p>This ensures predictable, consistent behavior across complex transitions.</p>
+
+                </section>
+
+                <section>
+                    <h2>8. Momentum Philosophy</h2>
+                    <p>All mechanics share a core design rule:</p>
+                    <blockquote class="text-xl italic font-serif my-4 p-4 border-l-4 border-yellow-500 bg-gray-50">
+                        “Momentum is survival; therefore should be rewarded.”
+                    </blockquote>
+                    <p>This is achieved by:</p>
+                    <ul>
+                        <li>
+                            <p>Never zeroing velocity unless absolutely necessary.</p>
+                        </li>
+                        <li>
+                            <p>Using additive or redirected forces instead of hard-set velocities.</p>
+                        </li>
+                        <li>
+                            <p>Allowing boosts when chaining multiple movement styles.</p>
+                        </li>
+                        <li>
+                            <p>Ensuring angles, timing, and skill impact speed gains.</p>
+                        </li>
+                    </ul>
+                    <p>The result is a high-expressiveness movement system where mastery leads to dramatically higher
+                        speed and control.</p>
+                </section>
+            </div>
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>
