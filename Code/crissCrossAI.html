@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Criss-Cross Flanking AI — Adaptive A Pathfinding With Controlled Lateral Movement</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764159297/2_o6pnx1.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764159290/1_oxo0cw.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    This system implements a custom flanking behavior on top of A* pathfinding,
+                    ensuring enemies never run directly at the player. Instead, they approach in a deliberate
+                    criss-cross (zig-zag) pattern while continuously correcting their path to maintain visibility
+                    and stay on valid navigation routes.
+
+                </p>
+
+                <h2>Technical Details</h2>
+                <!-- <h3>Rubber-Banding Convoy System</h3> -->
+                <br>
+                <p>
+                    <b>The AI dynamically alternates lateral offsets as it advances, creating a
+                        predictable-but-hard-to-hit flanking motion. To prevent the pattern from pulling the enemy
+                        off-course, the system automatically:</b>
+                </p>
+
+                <ul>
+                    <li>
+                        <p><b>Adjusts the criss-cross</b> offset when walls or obstacles would break the pattern.</p>
+                    </li>
+                    <li>
+                        <p><b>Maintains a forward “B-line” component</b>, ensuring consistent pressure toward the
+                            player.</p>
+                    </li>
+                    <li>
+                        <p><b>Keeps the player within line of sight</b> throughout movement, recalculating offsets when
+                            visibility is lost.</p>
+                    </li>
+                    <li>
+                        <p><b>Integrates with A*</b> so the zig-zag motion always remains on a valid, walkable path.</p>
+                    </li>
+                </ul>
+                <br>
+
+                <p>The result is an enemy that feels intentionally evasive, aggressive, and tactical—approaching the
+                    player from shifting angles instead of running straight forward or getting stuck behind geometry.
+                </p>
+            </div>
+
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>

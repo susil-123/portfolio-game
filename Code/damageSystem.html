@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>BROKEN JAW – Damage System</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764160543/DamageSystem_q7cyvm.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    Broken Jaw uses a localized damage model where individual skeletal regions have independent HP,
+                    damage reactions, and destruction behaviors. Core systems involved:
+                </p>
+                <ul>
+                    <li>
+                        <p>Per-component hit detection</p>
+                    </li>
+                    <li>
+                        <p>Per-part HP tracking</p>
+                    </li>
+                    <li>
+                        <p>Limb destruction (constraint breaking + physics)</p>
+                    </li>
+                    <li>
+                        <p>Hit reaction routing (animations, Niagara VFX)</p>
+                    </li>
+                    <li>
+                        <p>AI state updates (Blackboard)</p>
+                    </li>
+                    <li>
+                        <p>Cached hit info → critical hit reprocessing</p>
+                    </li>
+                </ul>
+
+                <h2>2. Damage Parts Definition</h2>
+                <h3>JawDamagablePartsList</h3>
+                <p>Defines valid damage regions:</p>
+                <p><code>None, Chest_L, Chest_R, Abs, Leg_L, Leg_R</code></p>
+                <p>Used as the universal identifier for:</p>
+                <ul>
+                    <li>
+                        <p>Damage lookup</p>
+                    </li>
+                    <li>
+                        <p>Reaction selection</p>
+                    </li>
+                    <li>
+                        <p>VFX configuration</p>
+                    </li>
+                    <li>
+                        <p>Animation evaluation</p>
+                    </li>
+                </ul>
+
+                <h2>3. HitReaction Data: FJawHitDataset</h2>
+                <p>Designer-configurable hit response container:</p>
+                <ul>
+                    <li>
+                        <p><b>AnimationToPlay:</b> Montage to play on hit</p>
+                    </li>
+                    <li>
+                        <p><b>CanSpawnNS:</b> Enable Niagara FX</p>
+                    </li>
+                    <li>
+                        <p><b>SpawnMeshComponent:</b> Attach point for gore/blood</p>
+                    </li>
+                    <li>
+                        <p><b>NSBlood / NSGore:</b> FX systems</p>
+                    </li>
+                    <li>
+                        <p><b>DamagePartName:</b> Corresponding enum region</p>
+                    </li>
+                    <li>
+                        <p><b>HasDamageMesh:</b> Enables destruction mesh</p>
+                    </li>
+                </ul>
+
+                <h2>4. Component → Damage Mapping</h2>
+                <p><code>TMap&lt;UPrimitiveComponent*, JawDamagablePartsList&gt; DamagableParts</code></p>
+                <p>Maps collision primitives to damage zones. Used during hit resolution to determine which region was
+                    impacted.</p>
+
+                <h2>5. Part Health</h2>
+                <h3>General Part Health</h3>
+                <p><code>TMap&lt;JawDamagablePartsList, float&gt; PartsHealth</code></p>
+                <p>HP registry for torso and leg regions.</p>
+
+                <h3>Special Arm Health</h3>
+                <p>Arms use dedicated fields:</p>
+                <ul>
+                    <li>
+                        <p><code>LeftShoulderHealth</code></p>
+                    </li>
+                    <li>
+                        <p><code>RightShoulderHealth</code></p>
+                    </li>
+                    <li>
+                        <p><code>LeftActive</code></p>
+                    </li>
+                    <li>
+                        <p><code>RightActive</code></p>
+                    </li>
+                </ul>
+                <p>When HP hits zero:</p>
+                <ul>
+                    <li>
+                        <p>Arm flagged inactive</p>
+                    </li>
+                    <li>
+                        <p>Blackboard updated (LostLeftArm / LostRightArm)</p>
+                    </li>
+                    <li>
+                        <p>Physical constraint broken</p>
+                    </li>
+                    <li>
+                        <p>Optional mesh physics activated</p>
+                    </li>
+                    <li>
+                        <p>ProcessDamage called for VFX/animation</p>
+                    </li>
+                </ul>
+
+                <h2>6. Damage Flow</h2>
+                <h3>DamageToEnemy(FDamageToEnemyInfo DamageInfo)</h3>
+                <p>Main entry point. Steps:</p>
+                <ol>
+                    <li>
+                        <p>Cache hit info (LastHitInfo).</p>
+                    </li>
+                    <li>
+                        <p>Apply global HP reduction via EnemyHealthComponent.</p>
+                    </li>
+                    <li>
+                        <p>Resolve hit component → detect limb hits.</p>
+                    </li>
+                    <li>
+                        <p>If limb health reaches 0:</p>
+                        <ul>
+                            <li>
+                                <p>Mark limb inactive</p>
+                            </li>
+                            <li>
+                                <p>Trigger constraint break and physics</p>
+                            </li>
+                            <li>
+                                <p>Update AI arm state (BrokenJawArms)</p>
+                            </li>
+                            <li>
+                                <p>ProcessDamage for hit reactions</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>CriticalHit()</h3>
+                <p>Re-dispatches previous hit into ProcessDamage. Triggered by the HealthComponent’s HitDelegate.</p>
+
+                <h2>7. Hit Processing</h2>
+                <h3>ProcessDamage() – BlueprintNativeEvent</h3>
+                <pre><code>ProcessDamage(UPrimitiveComponent* HitComponent,
+              FVector HitLocation,
+              FVector HitNormal)</code></pre>
+                <p>Purpose:</p>
+                <ul>
+                    <li>
+                        <p>Spawn blood/gore FX</p>
+                    </li>
+                    <li>
+                        <p>Play hit montage</p>
+                    </li>
+                    <li>
+                        <p>Trigger destruction meshes</p>
+                    </li>
+                    <li>
+                        <p>Apply region-specific visual/audio feedback</p>
+                    </li>
+                </ul>
+                <p>All localized response logic is routed through this function.</p>
+
+                <h2>8. Animation + AI Integration</h2>
+                <h3>Animation</h3>
+                <p><code>UBrokenJawAnimInstance</code> receives updates for:</p>
+                <ul>
+                    <li>
+                        <p>Arm loss</p>
+                    </li>
+                    <li>
+                        <p>Reaction states</p>
+                    </li>
+                    <li>
+                        <p>Behavioral transitions after damage</p>
+                    </li>
+                </ul>
+
+                <h3>Blackboard Keys</h3>
+                <ul>
+                    <li>
+                        <p><b>PlayerRef:</b> Cached reference to player</p>
+                    </li>
+                    <li>
+                        <p><b>PlayerLoc:</b> Updated every Tick</p>
+                    </li>
+                    <li>
+                        <p><b>EyeSightLoc:</b> Perception origin</p>
+                    </li>
+                    <li>
+                        <p><b>LostLeftArm / LostRightArm:</b> Limb destruction flags</p>
+                    </li>
+                    <li>
+                        <p><b>BrokenJawArms:</b> 0 = None, 1 = Both, 2 = One</p>
+                    </li>
+                </ul>
+
+                <h3>Tick()</h3>
+                <p>Constantly updates AI blackboard with:</p>
+                <ul>
+                    <li>
+                        <p>EyeSightLoc</p>
+                    </li>
+                    <li>
+                        <p>PlayerLoc</p>
+                    </li>
+                </ul>
+                <p>Ensures consistent tracking even while limbs are destroyed.</p>
+
+                <h2>9. Limb Destruction</h2>
+                <p>Upon limb HP reaching zero:</p>
+                <pre><code>Mesh->BreakConstraint(HitNormal * Force, FVector::Zero(), BoneName);</code></pre>
+                <p>Right arm additionally:</p>
+                <pre><code>Mesh->SetAllBodiesBelowSimulatePhysics("upperarm_r", true);</code></pre>
+                <p>Creates full detachment + ragdoll behavior.</p>
+
+                <h2>10. Death Handling</h2>
+                <p><code>Dead()</code> calls parent class death logic.</p>
+                <p>Hook exists for future corpse/FX expansion.</p>
+
+                <h2>11. Extensibility</h2>
+                <p>To add new damage zones:</p>
+                <ol>
+                    <li>
+                        <p>Add to <code>JawDamagablePartsList</code>.</p>
+                    </li>
+                    <li>
+                        <p>Add HP in <code>PartsHealth</code>.</p>
+                    </li>
+                    <li>
+                        <p>Map collision component in <code>DamagableParts</code>.</p>
+                    </li>
+                    <li>
+                        <p>Configure <code>FJawHitDataset</code> entries.</p>
+                    </li>
+                    <li>
+                        <p>Extend <code>ProcessDamage</code> logic.</p>
+                    </li>
+                </ol>
+                <p>Highly modular and compatible with Doom-style progressive destruction.</p>
+            </div>
+
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Glory Kill & Gib System</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764223618/glory_Kill_dmtp1q.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    The Glory Kill & Gib System provides a high-impact finisher mechanic inspired by DOOM Eternal.
+                    Enemies have per-limb damage, a stagger state, and cinematic synced executions where both player and
+                    enemy rigs animate together.
+                </p>
+
+                <h2>1. Per-Limb Damage</h2>
+                <p>Each enemy has separate hitboxes and HP for Head, Torso, Arms, Legs.</p>
+                <ul>
+                    <li>
+                        <p>Weak point multipliers enable strategic combat.</p>
+                    </li>
+                    <li>
+                        <p>Limb damage modifies AI behavior (limping, reduced attacks).</p>
+                    </li>
+                    <li>
+                        <p>Certain limbs can be destroyed, affecting available glory kill animations.</p>
+                    </li>
+                </ul>
+
+                <h2>2. Stagger & Execution State</h2>
+                <p>Enemies enter a Stagger State when health drops below a threshold or a weak point is destroyed.</p>
+                <p>Staggered enemies:</p>
+                <ul>
+                    <li>
+                        <p>Play stagger animations</p>
+                    </li>
+                    <li>
+                        <p>Stop attacking</p>
+                    </li>
+                    <li>
+                        <p>The player can trigger a Glory Kill when within a defined range and facing the target.</p>
+                    </li>
+                </ul>
+
+                <h2>3. Synced Player–Enemy Execution Animations</h2>
+                <p>On activation, both characters:</p>
+                <ul>
+                    <li>
+                        <p>Lock movement</p>
+                    </li>
+                    <li>
+                        <p>Snap to aligned execution positions</p>
+                    </li>
+                    <li>
+                        <p>Play synced root-motion animations</p>
+                    </li>
+                </ul>
+                <p>Animation chosen based on:</p>
+                <ul>
+                    <li>
+                        <p>Approach direction (front/back/side)</p>
+                    </li>
+                    <li>
+                        <p>Limb condition</p>
+                    </li>
+                    <li>
+                        <p>Enemy type</p>
+                    </li>
+                </ul>
+                <p>Camera and VFX sync via animation notifies.</p>
+                <p>After the kill, the enemy transitions to ragdoll or gib state or handmade animation depending on the
+                    enemy/ kill effect the system supports them all.</p>
+
+                <h2>4. Rig Switching & Mesh Tearing</h2>
+                <p>Enemies switch from their base rig to a Glory Kill rig containing:</p>
+                <ul>
+                    <li>
+                        <p>Pre-sliced meshes</p>
+                    </li>
+                    <li>
+                        <p>Gore layers or mechanical internals</p>
+                    </li>
+                </ul>
+                <p>Used for kills involving:</p>
+                <ul>
+                    <li>
+                        <p>Limb tearing</p>
+                    </li>
+                    <li>
+                        <p>Head ripping</p>
+                    </li>
+                    <li>
+                        <p>Body splitting</p>
+                    </li>
+                </ul>
+                <p>Mesh parts detach and convert to physics objects if required.</p>
+            </div>
+
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>

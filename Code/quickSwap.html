@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Weapon System & Quickswap Mechanics — Technical Breakdown</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764160242/WeaponSystemWithQuickSwap_qcqjvo.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    This project features a fully modular weapon system designed around Doom Eternal’s philosophy of
+                    high-speed weapon cycling and animation-driven combat flow. The system is built through a dedicated
+                    Weapon Manager Component responsible for spawning guns, tracking weapon states, handling fire
+                    requests, and enabling animation-cancel quickswaps.
+                </p>
+                <p>
+                    The result is a responsive arsenal where players can swap between weapons to bypass fire delays,
+                    enabling intentional “optimal DPS rotations” and skill-based quickswap tech.
+                </p>
+
+                <h2>1. System Architecture Overview</h2>
+                <h3>Component-Driven Weapon Handling</h3>
+                <p>All weapon logic is handled inside <code>UAC_PlayerWeaponManager</code>, which manages:</p>
+                <ul>
+                    <li>
+                        <p>Weapon spawning & pooling</p>
+                    </li>
+                    <li>
+                        <p>Equipping / unequipping</p>
+                    </li>
+                    <li>
+                        <p>Firing state (primary/secondary fire)</p>
+                    </li>
+                    <li>
+                        <p>Ammo feedback to HUD</p>
+                    </li>
+                    <li>
+                        <p>Animation event binding</p>
+                    </li>
+                    <li>
+                        <p>Quickswap validations</p>
+                    </li>
+                    <li>
+                        <p>Active/Previous weapon tracking</p>
+                    </li>
+                </ul>
+                <p>Each weapon (<code>FireGun</code>, <code>SGun</code>, <code>TripleBlaster</code>) inherits from
+                    <code>AWeaponBase</code>, ensuring consistent behavior while allowing custom firing logic per
+                    weapon.
+                </p>
+
+                <h2>2. Weapon Spawning & Initialization</h2>
+                <p>At game start, the manager:</p>
+                <ul>
+                    <li>
+                        <p>Reads weapon classes, montage data, and attach-point sockets from
+                            <code>FWeaponManagerInitializer</code>.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Spawns every weapon at runtime using <code>SpawnGun()</code>.</p>
+                    </li>
+                    <li>
+                        <p>Stores them in a <code>TMap&lt;PlayerGuns, AWeaponBase*&gt; SpawnnedGunsMap</code>.</p>
+                    </li>
+                    <li>
+                        <p>Activates the starting weapon and deactivates the rest.</p>
+                    </li>
+                    <li>
+                        <p>Attaches the active gun to the correct mesh socket.</p>
+                    </li>
+                </ul>
+                <p>This approach avoids runtime spawning during combat and enables instant weapon switching without
+                    hitches or spawn latency.</p>
+
+                <h2>3. Equip / Unequip System (Animation-Driven)</h2>
+                <h3>State Machine</h3>
+                <p>Weapon switching uses an animation-driven state system:</p>
+                <p><code>Unequip Montage → Equip Montage → ActivateGun Notify</code></p>
+                <p>The manager plays the correct montage pair based on the current and next weapon using:</p>
+                <ul>
+                    <li>
+                        <p><code>UnEquipMontagesMap[CurrentGun]</code></p>
+                    </li>
+                    <li>
+                        <p><code>EquipMontagesMap[NewGun]</code></p>
+                    </li>
+                </ul>
+
+                <h3>Event Binding (Notify Begin → Callback)</h3>
+                <p>Each montage is handled using: <code>UPlayMontageCallbackProxy::OnNotifyBegin</code></p>
+                <p>This allows weapon transitions to synchronize precisely with animation Notifies:</p>
+                <ul>
+                    <li>
+                        <p><b>“ChangeState” notify</b> → swap internal weapon state</p>
+                    </li>
+                    <li>
+                        <p><b>“ActivateGun” notify</b> → allow firing</p>
+                    </li>
+                </ul>
+                <p>Prevents instant pops or desync between visual and gameplay states. This ensures a polished,
+                    AAA-style weapon presentation.</p>
+
+                <h2>4. Firing System (Primary & Secondary Fire)</h2>
+                <p>The manager exposes:</p>
+                <ul>
+                    <li>
+                        <p><code>NFireCaller(bool Value);</code></p>
+                    </li>
+                    <li>
+                        <p><code>SFireCaller(bool Value);</code></p>
+                    </li>
+                </ul>
+                <p>These route the input to the active weapon only if no gun change is in progress.</p>
+                <p>Each weapon implements:</p>
+                <ul>
+                    <li>
+                        <p><code>NFire()</code> – rapid fire, single shot, automatic, etc.</p>
+                    </li>
+                    <li>
+                        <p><code>SFire()</code> – alt-fire modes (charged blast, slug shot, explosive round)</p>
+                    </li>
+                </ul>
+                <p>Weapons remain dormant until activated, allowing real-time switching without persistent ticking on
+                    inactive guns.</p>
+
+                <h2>5. Quickswap System (Doom Eternal-Style)</h2>
+                <p>The core design goal was to enable fast, skill-based weapon swapping that bypasses weapon cooldowns.
+                </p>
+                <h3>Concept: Animation Cancel → Fire from New Weapon</h3>
+                <p>In Doom Eternal, players quickswap by:</p>
+                <ol>
+                    <li>
+                        <p>Firing weapon A</p>
+                    </li>
+                    <li>
+                        <p>Cancelling recovery animation using weapon B</p>
+                    </li>
+                    <li>
+                        <p>Immediately firing weapon B</p>
+                    </li>
+                    <li>
+                        <p>Repeating back and forth</p>
+                    </li>
+                </ol>
+                <p>Your system achieves this with the following rules:</p>
+
+                <h3>A) GunChangeInProgress Lockout</h3>
+                <p>During a swap:</p>
+                <pre><code>GunChangeInProgress = true;
+CurrentGunRef->DisableGun();</code></pre>
+                <p>This:</p>
+                <ul>
+                    <li>
+                        <p>Prevents old weapon from firing during its recovery window</p>
+                    </li>
+                    <li>
+                        <p>Enables swap-cancel only through animation notify triggers</p>
+                    </li>
+                    <li>
+                        <p>Ensures swap consistency regardless of framerate</p>
+                    </li>
+                </ul>
+
+                <h3>B) Animation Notify “ActivateGun” Re-enables Firing</h3>
+                <p>At the exact notify frame:</p>
+                <pre><code>CurrentGunRef->bIsGunActive = true;
+
+if (bNFireDown) CurrentGunRef->NFire(true);
+if (bSFireDown) CurrentGunRef->SFire(true);</code></pre>
+                <p>This means:</p>
+                <ul>
+                    <li>
+                        <p><b>If the player is still holding the fire button:</b> The new weapon fires the moment the
+                            animation reaches the “ready” state.</p>
+                    </li>
+                    <li>
+                        <p><b>If both weapons have short readies:</b> The timing window becomes extremely tight —
+                            enabling rapid A → B → A → B quickswap fire loops.</p>
+                    </li>
+                </ul>
+
+                <h3>C) Previous Gun Tracking for Instant Back-Swap</h3>
+                <p>The manager maintains:</p>
+                <pre><code>PlayerGuns PreviosGun;
+AWeaponBase* PreviousGunRef;</code></pre>
+                <p>This allows fast swapping: <code>ChangeToPreviosGun();</code></p>
+                <p>Together with input buffering, this enables extremely fast cycle patterns such as:</p>
+                <ul>
+                    <li>
+                        <p>FireGun → SGun → FireGun</p>
+                    </li>
+                    <li>
+                        <p>SGun → Blast → SGun</p>
+                    </li>
+                    <li>
+                        <p>TripleBlaster → FireGun → TripleBlaster</p>
+                    </li>
+                </ul>
+                <p>All while preserving the animation-driven cancel timing.</p>
+
+                <h2>6. Weapon Attachments & Visual Consistency</h2>
+                <p>Each weapon has a dedicated attach point: <code>AttachPointMap[WeaponType]</code></p>
+                <p>The system:</p>
+                <ul>
+                    <li>
+                        <p>Detaches the previous gun</p>
+                    </li>
+                    <li>
+                        <p>Attaches new gun to its socket</p>
+                    </li>
+                    <li>
+                        <p>Resets its transform</p>
+                    </li>
+                    <li>
+                        <p>Activates/deactivates weapon behavior</p>
+                    </li>
+                </ul>
+                <p>This avoids snapping or offsets when switching back and forth multiple times per second.</p>
+
+                <h2>7. Bullet Pooling</h2>
+                <p>Fire weapons use a dedicated bullet pool: <code>APlayerBulletPoolManager</code></p>
+                <p>This eliminates:</p>
+                <ul>
+                    <li>
+                        <p>Spawn cost per shot</p>
+                    </li>
+                    <li>
+                        <p>GC churn</p>
+                    </li>
+                    <li>
+                        <p>Stutter during high fire rates (especially during quickswap chains)</p>
+                    </li>
+                </ul>
+
+                <h2>8. HUD Integration</h2>
+                <p>Whenever the weapon is fully equipped:</p>
+                <pre><code>PlayerHudref->CurrentGun = GlobalRefToChangeGun;
+PlayerHudref->UpdateGunAmmo();
+PlayerHudref->UpdateAimImage();</code></pre>
+                <p>This keeps the UI synced with the internal weapon state.</p>
+
+                <h2>9. Design Philosophy — “Swap Is a Weapon”</h2>
+                <p>Like Doom Eternal, your system treats weapon swapping itself as a combat mechanic.</p>
+                <p>Key rules:</p>
+                <ul>
+                    <li>
+                        <p>Fast swap is always viable</p>
+                    </li>
+                    <li>
+                        <p>Swap cancels recovery frames</p>
+                    </li>
+                    <li>
+                        <p>Timing rewards the player</p>
+                    </li>
+                    <li>
+                        <p>High skill expression → higher DPS</p>
+                    </li>
+                    <li>
+                        <p>Encourages intentional weapon cycling instead of spamming one gun</p>
+                    </li>
+                </ul>
+                <p>This creates a combat loop centered around:</p>
+                <ul>
+                    <li>
+                        <p>Optimized rotation</p>
+                    </li>
+                    <li>
+                        <p>Rhythm</p>
+                    </li>
+                    <li>
+                        <p>Timing</p>
+                    </li>
+                    <li>
+                        <p>Swap skill ceiling</p>
+                    </li>
+                </ul>
+            </div>
+
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>
