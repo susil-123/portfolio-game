@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Projectile Materials</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236998/M_3_oqhlgs.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236986/M_1_nhripg.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236982/M_5_bgdaon.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236979/M_2_yre9oq.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236976/M_4_dpaegw.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    I developed a fully procedural foot placement system for spider-like creatures using Unreal
+                    Engine’s Control Rig and Full Body IK.
+
+                </p>
+                <p>
+                    The setup uses per-leg cycle offsets, world-space foot locking, predictive sphere traces, and a
+                    dynamic velocity-based stride system.
+
+                </p>
+                <p>
+                    Each foot alternates between locked (stance) and unlocked (swing) states, and a predictive
+                    trace adjusts the next foot location based on movement direction and speed. The result is
+                    natural stepping, even on uneven or moving surfaces.
+
+                </p>
+                <p>
+                    Finally, all updated foot transforms feed into UE’s Full Body IK solver, allowing the body and
+                    other legs to automatically stabilize around procedural leg motion.
+
+                </p>
+            </div> -->
+
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>

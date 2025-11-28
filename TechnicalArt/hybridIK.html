@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./../style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Back button uses history to go back to the previous category page -->
+        <a href="javascript:history.back()" class="back-btn">
+            &larr; Back
+        </a>
+
+        <article class="project-detail">
+            <header class="project-header">
+                <h1>Hybrid IK + Traditional Animation System</h1>
+                <!-- <p class="project-meta">Role: Lead Developer | Tech: Unity, C#, AI</p> -->
+            </header>
+
+            <div class="media-gallery">
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236804/Turn_LockVsUnLock_kcmavr.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236717/Video_2025_03_04-1_s0ccar.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <!-- Side-by-side video comparison -->
+                <div class="media-item main-media video-compare-container">
+                    <div class="video-card">
+                        <div class="video-overlay">Hover to play</div>
+                        <video muted loop playsinline>
+                            <source
+                                src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764236710/Video_2025_02_25-1_elz0h3.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="project-description">
+                <h2>Overview</h2>
+                <p>
+                    This system blends handcrafted enemy animations with procedural IK to create responsive,
+                    target-aware behavior without sacrificing animation quality. The base locomotion, attack, and idle
+                    cycles are authored traditionally, while layered IK modifies only what needs to be
+                    adaptive—mirroring techniques discussed in the DOOM GDC talk.
+                </p>
+
+                <h3>Target-Aware Upper Body IK</h3>
+                <ul>
+                    <li>
+                        <p>Preserves the original animation’s body movement, timing, and style.</p>
+                    </li>
+                    <li>
+                        <p>Smooth blending ensures natural transitions without snapping.</p>
+                    </li>
+                    <li>
+                        <p>Allows enemies to track the player even during complex animations (running, turning,
+                            attacking).
+                        </p>
+                    </li>
+                </ul>
+
+                <h3>Foot Locking & Ground IK</h3>
+                <ul>
+                    <li>
+                        <p>Per-foot IK traces the ground and adjusts foot position and rotation.</p>
+                    </li>
+                    <li>
+                        <p>Foot locking prevents sliding during locomotion cycles and turning-in-place animations.</p>
+                    </li>
+                    <li>
+                        <p>The system blends with baked animations, correcting only the lower body where necessary.</p>
+                    </li>
+                    <li>
+                        <p>IK activates adaptively based on movement speed and animation phase.</p>
+                    </li>
+                </ul>
+
+                <h3>Hybrid Animation Pipeline</h3>
+                <ul>
+                    <li>
+                        <p>Traditional animations define personality, timing, and weight.</p>
+                    </li>
+                    <li>
+                        <p>IK layers correct alignment, maintain grounding, and add responsiveness.</p>
+                    </li>
+                    <li>
+                        <p>Runtime constraints ensure adjustments never break silhouette or animation intent.</p>
+                    </li>
+                    <li>
+                        <p>All modifications happen additively, so animators’ work remains intact.</p>
+                    </li>
+                </ul>
+
+                <h3>Result</h3>
+                <p>A highly reactive, polished enemy animation system where characters:</p>
+                <ul>
+                    <li>
+                        <p>Track the player naturally</p>
+                    </li>
+                    <li>
+                        <p>Maintain stable foot placement on uneven terrain</p>
+                    </li>
+                    <li>
+                        <p>Retain the artistic quality of the original animations</p>
+                    </li>
+                    <li>
+                        <p>Feel grounded, weighty, and responsive—similar to DOOM’s hybrid IK approach</p>
+                    </li>
+                </ul>
+            </div>
+
+        </article>
+    </div>
+    <script src="./../script.js"></script>
+</body>
+
+</html>
