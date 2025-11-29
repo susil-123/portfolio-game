@@ -56,9 +56,10 @@ body::before {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 2rem;
+    padding-top: 3rem;
     position: relative;
     gap: 2rem;
 }
@@ -177,6 +178,7 @@ body::before {
 .category-nav {
     display: flex;
     width: 100%;
+    min-height: 500px;
     height: 60vh;
     max-width: 1400px;
     gap: 1rem;
@@ -1415,6 +1417,201 @@ body::before {
     visibility: visible;
 }
 
+.project-detail {
+    animation: fadeIn 0.8s var(--easing);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.project-header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+}
+
+.project-header h1 {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.project-meta {
+    font-family: var(--font-main);
+    color: var(--accent-color);
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.media-gallery {
+    margin-bottom: 3rem;
+}
+
+.media-item {
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.main-media {
+    height: 500px;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.media-grid .media-item {
+    height: 150px;
+}
+
+.placeholder-media {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 80%);
+}
+
+.project-description h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    color: var(--text-color);
+}
+
+.project-description p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--secondary-text);
+    margin-bottom: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-nav {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .category-card {
+        min-height: 200px;
+    }
+
+    .category-card:hover {
+        flex: 1;
+    }
+
+    .page-container {
+        padding: 2rem;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .project-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .main-media {
+        height: 300px;
+    }
+}
+
+/* Video Comparison Styles */
+.video-compare-container {
+    display: flex;
+    gap: 1rem;
+    height: 500px;
+    background: transparent;
+    border: none;
+}
+
+.video-card {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #000;
+    cursor: pointer;
+}
+
+.video-card:hover {
+    flex: 3;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.video-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+    .video-compare-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .video-card {
+        height: 250px;
+    }
+
+    .video-card:hover {
+        flex: 1;
+        /* Disable expansion on mobile */
+    }
+}
+
+/* Video Overlay Styles */
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    /* Allows click/hover through to video */
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* Transition for fade effect */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
 .video-card:hover .video-overlay {
     opacity: 0;
     visibility: hidden;
@@ -1426,4 +1623,173 @@ body::before {
     object-fit: cover;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: block;
+}
+
+/* Featured Modal Styles */
+.featured-modal {
+    width: 100%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    z-index: 5;
+    animation: fadeInUp 1s var(--easing);
+}
+
+.featured-card {
+    position: relative;
+    width: 100%;
+    height: 750px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-bg);
+    transition: all 0.6s var(--easing);
+}
+
+.featured-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+}
+
+.featured-poster {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.featured-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.8s var(--easing);
+    filter: brightness(0.8);
+}
+
+.featured-card:hover .featured-poster img {
+    filter: blur(10px) brightness(1.3);
+    transform: scale(1.05);
+}
+
+.featured-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    z-index: 2;
+    transition: all 0.6s var(--easing);
+}
+
+.featured-card:hover .featured-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 70%, rgba(0, 0, 0, 0.5) 100%);
+    padding: 4rem;
+}
+
+.featured-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+    transform: translateY(0);
+    transition: all 0.5s var(--easing);
+}
+
+.featured-card:hover .featured-label {
+    opacity: 1;
+    transform: translateY(-10px);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.featured-title {
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    transform: translateY(0);
+    transition: all 0.6s var(--easing);
+    line-height: 1.1;
+}
+
+.featured-card:hover .featured-title {
+    transform: translateY(-15px) scale(1.05);
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.featured-overview {
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--secondary-text);
+    max-width: 700px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: all 0.7s var(--easing);
+    margin-top: 0;
+}
+
+.featured-card:hover .featured-overview {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(-10px);
+    margin-top: 1rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for featured modal */
+@media (max-width: 768px) {
+    .featured-modal {
+        margin: 1rem auto;
+    }
+
+    .featured-card {
+        height: 500px;
+    }
+
+    .featured-overlay {
+        padding: 2rem;
+    }
+
+    .featured-card:hover .featured-overlay {
+        padding: 2.5rem;
+    }
+
+    .featured-title {
+        font-size: 2.5rem;
+    }
+
+    .featured-overview {
+        font-size: 0.95rem;
+    }
 }
