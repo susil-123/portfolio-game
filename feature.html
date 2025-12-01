@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         :root {
             --bg-color: #0a0a0a;
@@ -203,16 +204,12 @@
             margin: 0 auto;
         }
 
-        /* Video Section */
-        .video-section {
+        /* Video Comparison Section */
+        .video-compare-container {
+            display: flex;
+            gap: 1rem;
+            height: 500px;
             margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             animation: scaleIn 1s var(--easing) 0.3s both;
         }
 
@@ -228,51 +225,58 @@
             }
         }
 
-        .video-wrapper {
+        video-card {
+            flex: 1;
             position: relative;
-            padding-bottom: 56.25%;
-            /* 16:9 aspect ratio */
-            height: 0;
             overflow: hidden;
+            transition: all 0.6s var(--easing);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
         }
 
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .video-card:hover {
+            flex: 1.5;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 80px rgba(138, 43, 226, 0.3);
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--easing);
+        }
+
+        .video-card iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* Glow effect on hover */
-        .video-section::before {
-            content: '';
+        .video-overlay {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.6s var(--easing);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             pointer-events: none;
-            z-index: -1;
-        }
-
-        .video-section:hover::before {
             opacity: 1;
-            animation: rotateGlow 8s linear infinite;
+            transition: opacity 0.3s var(--easing);
+            z-index: 10;
         }
 
-        @keyframes rotateGlow {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        .video-card:hover .video-overlay {
+            opacity: 0;
         }
 
         /* Image Section */
@@ -372,6 +376,7 @@
             text-transform: uppercase;
             color: var(--accent-color);
             animation: float-badge 3s ease-in-out infinite;
+            z-index: 20;
         }
 
         @keyframes float-badge {
@@ -415,6 +420,18 @@
             margin-bottom: 1.5rem;
         }
 
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s var(--easing);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-section h1 {
@@ -436,18 +453,19 @@
             .container {
                 padding: 1rem;
             }
-        }
 
-        /* Scroll reveal animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-        }
+            .video-compare-container {
+                flex-direction: column;
+                height: auto;
+            }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 1s var(--easing);
+            .video-card {
+                height: 300px;
+            }
+
+            .video-card:hover {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -464,14 +482,22 @@
             <p class="subtitle">An extraordinary journey into immersive game development</p>
         </div>
 
-        <!-- Video Section -->
-        <div class="video-section">
-            <div class="floating-badge">FEATURED VIDEO</div>
-            <div class="video-wrapper">
+        <!-- Side-by-Side Video Comparison -->
+        <div class="video-compare-container">
+            <div class="video-card">
+                <div class="floating-badge">GAMEPLAY TRAILER</div>
                 <iframe src="https://www.youtube.com/embed/FYgn1r-fPPE?si=k13zKs9b86T6sO0o"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
+            </div>
+            <div class="video-card">
+                <div class="video-overlay">Hover to play</div>
+                <video muted loop playsinline>
+                    <source
+                        src="https://res.cloudinary.com/dk1xaw704/video/upload/v1764569049/WhatsApp_Video_2025-12-01_at_11.33.32_nwfpwr.mp4"
+                        type="video/mp4">
+                </video>
             </div>
         </div>
 
@@ -482,9 +508,9 @@
                     alt="Indie40 Project">
                 <div class="image-overlay">
                     <div class="overlay-content">
-                        <h2>INDIE40 PROJECT</h2>
-                        <p>Explore the creative vision behind this innovative indie game development. Where artistry
-                            meets cutting-edge technology.</p>
+                        <h2>INDIE40 SHORTLIST</h2>
+                        <!-- <p>Explore the creative vision behind this innovative indie game development. Where artistry
+                            meets cutting-edge technology.</p> -->
                     </div>
                 </div>
             </div>
@@ -493,21 +519,20 @@
         <!-- Description Section -->
         <div class="description-section reveal">
             <h2>About This Project</h2>
-            <p>
-                Indie40 represents a breakthrough in independent game development, combining stunning visuals with
-                innovative gameplay mechanics. This project showcases the power of creative vision and technical
-                excellence.
-            </p>
-            <p>
-                Built with passion and dedication, this game pushes the boundaries of what's possible in the indie game
-                scene. From meticulously crafted environments to engaging gameplay systems, every aspect has been
-                designed to deliver an unforgettable experience.
-            </p>
-            <p>
-                The development journey combines cutting-edge technology with artistic vision, resulting in a unique
-                gaming experience that stands out in the crowded indie market. Discover the innovation, creativity, and
-                technical prowess that went into creating this masterpiece.
-            </p>
+            <p>This vertical slice represents a solo-developed FPS that combines the momentum-rich traversal of
+                Titanfall 2
+                with the relentless, aggressive combat flow of DOOM Eternal. Players can chain together advanced
+                movement
+                techniques — slide, slide-hop, jump, ground slam, wall run, and grapple hook — to maintain high-speed
+                flow
+                and outmaneuver cyborg-zombie enemies.</p>
+            <p>Combat is built around a Quick Swap system that rewards switching weapons between shots for maximum burst
+                damage and combo potential. The slice features two handcrafted levels, two unique weapons, and a full
+                set of
+                custom enemies.</p>
+            <p>Every system, animation, and asset is completely original — no marketplace content used.</p>
+            <p>Proudly, this project was selected for the IGDC 2025 Indie Top 40 Showcase, recognizing it as one of the
+                standout indie titles of the year.</p>
         </div>
     </div>
 
@@ -529,6 +554,17 @@
 
         createParticles();
 
+        // Video hover to play functionality
+        document.querySelectorAll('.video-card video').forEach(video => {
+            const card = video.closest('.video-card');
+            card.addEventListener('mouseenter', () => {
+                video.play();
+            });
+            card.addEventListener('mouseleave', () => {
+                video.pause();
+            });
+        });
+
         // Scroll reveal animation
         function reveal() {
             const reveals = document.querySelectorAll('.reveal');
@@ -546,29 +582,6 @@
 
         window.addEventListener('scroll', reveal);
         reveal(); // Initial check
-
-        // Parallax effect for background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('body::before');
-            if (parallax) {
-                document.body.style.setProperty('--scroll', scrolled * 0.5 + 'px');
-            }
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
     </script>
 </body>
 
