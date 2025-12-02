@@ -45,28 +45,73 @@
                         </video>
                     </div>
                 </div>
-
             </div>
 
-            <!-- <div class="project-description">
-                <h2>Overview</h2>
-                <p>
-                    The Flame Pouch enemy utilizes procedural animation and fire-based attacks to create dynamic combat
-                    encounters. This enemy type features realistic movement patterns and environmental interaction.
-                </p>
+            <div class="project-description">
+                <h2>FlamePouch — Bullet-Hell Fuel-Core Spider</h2>
+                <p>FlamePouch is a multi-torso, spider-like ranged enemy designed to overwhelm players with high-volume
+                    projectile spam. Its four arms and dual torsos enable rapid firing, creating localized bullet-hell
+                    patterns.</p>
 
-                <h2>Combat Mechanics</h2>
-                <h3>Procedural Animation</h3>
-                <p>Advanced procedural animation system allows for realistic and unpredictable movement, making the
-                    enemy
-                    more challenging to track and engage.</p>
+                <h3>Core Behavior</h3>
+                <ul>
+                    <li>
+                        <p>Slow, deliberate movement to maintain constant pressure.</p>
+                    </li>
+                    <li>
+                        <p>Continuously launches multiple projectiles in staggered volleys.</p>
+                    </li>
+                    <li>
+                        <p>Attack density scales with proximity and line of sight.</p>
+                    </li>
+                </ul>
 
-                <h3>Weak Point Targeting</h3>
-                <p>The Flame Pouch features a critical weak point that, when targeted, can dramatically reduce time to
-                    kill
-                    and reward precise player aim.</p>
-            </div> -->
+                <h3>Fuel Pouch Mechanic (Core Weak Point)</h3>
+                <p>Equipped with a flammable fuel pouch that powers its projectile attacks.</p>
+                <ul>
+                    <li>
+                        <p>The pouch can be heated by shooting it directly.</p>
+                    </li>
+                    <li>
+                        <p>Upon exceeding a heat threshold, the pouch:</p>
+                        <ul>
+                            <li>
+                                <p>Explodes, dealing heavy damage to FlamePouch.</p>
+                            </li>
+                            <li>
+                                <p>Weakens all its projectiles, reducing their speed and damage.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>The pouch naturally cools down over time, forcing the player to:</p>
+                        <ul>
+                            <li>
+                                <p>Maintain pressure and repeatedly heat it,</p>
+                            </li>
+                            <li>
+                                <p>Or risk the enemy returning to full attack capability.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
+                <h3>Design Intent</h3>
+                <p>FlamePouch introduces:</p>
+                <ul>
+                    <li>
+                        <p>Sustained bullet-hell pressure,</p>
+                    </li>
+                    <li>
+                        <p>A controlled weak-point gameplay loop,</p>
+                    </li>
+                    <li>
+                        <p>A risk-reward interaction where players must expose themselves to fire while overheating the
+                            fuel core.</p>
+                    </li>
+                </ul>
+                <p>The result is a high-threat enemy that rewards offensive play.</p>
+            </div>
 
         </article>
     </div>

@@ -45,27 +45,78 @@
                         </video>
                     </div>
                 </div>
-
             </div>
 
-            <!-- <div class="project-description">
-                <h2>Overview</h2>
-                <p>
-                    The Steam Board enemy features advanced movement AI with criss-cross attack patterns, making it a
-                    highly mobile and unpredictable threat on the battlefield.
-                </p>
+            <div class="project-description">
+                <h2>SteamBoard — High-Mobility Flanker on Hover Skates</h2>
+                <p>SteamBoard is a fast, evasive enemy built around aggressive flanking movement. Riding a steam-powered
+                    hover board, he executes continuous criss-cross traversal patterns to stay unpredictable while
+                    closing the distance to the player.</p>
 
-                <h2>AI Behavior</h2>
-                <h3>Criss-Cross Movement</h3>
-                <p>Utilizes intelligent pathfinding and evasive maneuvers to create dynamic combat scenarios. The enemy
-                    constantly repositions to maintain tactical advantage.</p>
+                <h3>Core Behavior</h3>
+                <ul>
+                    <li>
+                        <p>Uses a custom criss-cross movement algorithm to constantly shift lateral direction,
+                            preventing
+                            easy tracking.</p>
+                    </li>
+                    <li>
+                        <p>Tries to flank rather than approach in a straight line, adjusting angles dynamically based on
+                            player position and visibility.</p>
+                    </li>
+                    <li>
+                        <p>When within attack radius, he performs a high-speed dash directly at the player.</p>
+                    </li>
+                </ul>
 
-                <h3>Weak Point System</h3>
-                <p>Features exposed weak points that players can exploit for increased damage, rewarding skillful
-                    tracking
-                    and aim during the enemy's rapid movements.</p>
-            </div> -->
+                <h3>Dash Attack</h3>
+                <p>The front of the hover board contains dual needle-like blades.</p>
+                <ul>
+                    <li>
+                        <p>A successful dash collision deals heavy piercing damage.</p>
+                    </li>
+                    <li>
+                        <p>Dash timing and angle are chosen based on both player movement and SteamBoard’s lateral
+                            momentum.</p>
+                    </li>
+                </ul>
 
+                <h3>Hover Board Weak Point</h3>
+                <p>The board itself can be damaged independently.</p>
+                <ul>
+                    <li>
+                        <p>Reducing the board’s health:</p>
+                        <ul>
+                            <li>
+                                <p>Lowers his max speed</p>
+                            </li>
+                            <li>
+                                <p>Breaks his criss-cross rhythm</p>
+                            </li>
+                            <li>
+                                <p>Makes his dash attacks easier to dodge and telegraph</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Fully disabling the board leaves him significantly slower and vulnerable.</p>
+                    </li>
+                </ul>
+
+                <h3>Design Intent</h3>
+                <p>SteamBoard is designed to:</p>
+                <ul>
+                    <li>
+                        <p>Challenge player tracking skills,</p>
+                    </li>
+                    <li>
+                        <p>Add pressure through fast flanking movement,</p>
+                    </li>
+                    <li>
+                        <p>Provide a tactical weak-point system that rewards disabling mobility.</p>
+                    </li>
+                </ul>
+            </div>
 
         </article>
     </div>

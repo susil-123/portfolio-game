@@ -44,26 +44,68 @@
                         </video>
                     </div>
                 </div>
-
             </div>
 
-            <!-- <div class="project-description">
-                <h2>Overview</h2>
-                <p>
-                    The Steam Copter enemy is an aerial threat that utilizes rapid dash mechanics to close distance and
-                    engage players from unexpected angles. Its mobility makes it a challenging target.
-                </p>
+            <div class="project-description">
+                <h2>SteamCopter — LOS-Reactive Aerial Skirmisher</h2>
+                <p>SteamCopter is a light aerial enemy kept aloft by dual rotor assemblies mounted on its arms. It
+                    specializes in evasive mid-air behavior and reacts dynamically to player attention.</p>
 
-                <h2>Combat Abilities</h2>
-                <h3>Dash Attack</h3>
-                <p>Features high-speed dash maneuvers that allow the enemy to quickly reposition and launch surprise
-                    attacks. Players must maintain situational awareness to track and counter these movements.</p>
+                <h3>Core Behavior</h3>
+                <ul>
+                    <li>
+                        <p>Hovers at mid-range using two independently driven steam rotors.</p>
+                    </li>
+                    <li>
+                        <p>Continuously repositions to maintain distance and harassment angles.</p>
+                    </li>
+                    <li>
+                        <p>If the player maintains line of sight for too long, SteamCopter performs a rapid evasive
+                            dash,
+                            breaking LOS and forcing the player to reacquire the target.</p>
+                    </li>
+                </ul>
 
-                <h3>Aerial Weak Point</h3>
-                <p>The Steam Copter's weak point is accessible during specific attack animations, rewarding players who
-                    learn its attack patterns and can maintain accuracy on a fast-moving aerial target.</p>
+                <h3>Rotor Weak-Point System</h3>
+                <p>Each arm contains a rotor that can be individually damaged:</p>
+                <h4>One Rotor Destroyed</h4>
+                <ul>
+                    <li>
+                        <p>Loses ability to perform evasive dashes.</p>
+                    </li>
+                    <li>
+                        <p>Hover stability becomes uneven, reducing mobility and making it easier to hit.</p>
+                    </li>
+                </ul>
+                <h4>Both Rotors Destroyed</h4>
+                <ul>
+                    <li>
+                        <p>Loses all lift.</p>
+                    </li>
+                    <li>
+                        <p>Crashes uncontrollably into the ground.</p>
+                    </li>
+                    <li>
+                        <p>Detonates on impact, dealing AoE damage to enemies (and potentially the player if too close).
+                        </p>
+                    </li>
+                </ul>
+
+                <h3>Design Intent</h3>
+                <p>SteamCopter creates:</p>
+                <ul>
+                    <li>
+                        <p>A reactive aerial threat that punishes tunnel vision,</p>
+                    </li>
+                    <li>
+                        <p>A weak-point driven interaction where disabling mobility is as important as dealing damage,
+                        </p>
+                    </li>
+                    <li>
+                        <p>Dynamic aerial silhouettes and movement variety within combat spaces.</p>
+                    </li>
+                </ul>
             </div>
- -->
 
         </article>
     </div>
